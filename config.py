@@ -3,7 +3,7 @@ from pymongo import MongoClient
 url = "https://api.spotify.com/v1/me/tracks?limit=50"
 payload = {}
 headers = {
-  'Authorization': 'Bearer BQBJpQf3qrNVpE6knYi3aKZRaC1PXs26nnhNQ4ca_hGHKHMB_9ZgGRAoPuZ5BdqypGqiH4_cUl-JD8ae0RTy8KJrtcMh9tvOjWCuQyGgvnmm9uSvtJSx-_p9SePbcu44fTExLsQMrUijT2fUbM5y3VkCv0NKlXBSyHShi1r_GxpOzYwvRmjcymt7NdANyXcVzvFwMrSPRKWmw71fJOIYIn7QD5CmrEhtALZLv0qCMt2yiIJrP0o'
+  'Authorization': 'Bearer BQAgPmm_TEs1CROi15MqJnBKh4_6TzpIN5DJLdierTdISZLGpdSLJNOwz_jHxvxs5hE7517pyInTFDDEVlsvZ3uH0cSfs2XKlgaT1UcmpCtKyLwPzJbNpyV7g7TvLuhBImmEfsSMpTIlAOtMeZtMuu-6RxBTDmskSs8XkSrzrI6lPngX5BnHQlxnKQgoEdKj2hviP9LRn5788VUKhQkVk6IU8I5o0zZRpQz9FuerTV6W_I2hLWw'
 }
 
 client = MongoClient('mongodb://localhost:27017/')
