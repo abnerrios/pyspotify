@@ -77,4 +77,4 @@ def mount_playlist():
         save_playlist(selected_tracks, cluster)
 
 if __name__=='__main__':
-    playlist = mount_playlist()
+    mount_playlist()

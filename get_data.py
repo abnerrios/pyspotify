@@ -2,7 +2,7 @@ import requests
 import json 
 import pandas as pd
 from multiprocessing import Pool
-from config import payload, headers, client
+from config import payload, headers, client, pitch_class
 
 db = client.spotify
 # funções de inserção no mongo
@@ -12,6 +12,7 @@ def process_track(item):
   print('[+] Realizando parsing da faixa id: {}'.format(track['id']))
   # recupera informações adicionais
   audio_features = get_audio_features(track['id'])
+  audio_features['key'] = pitch_class[audio_features['key']]
   # recupera apenas informações necessários do album
   album = {
     'id': track['album']['id'],
@@ -32,6 +33,7 @@ def process_track(item):
     'duration_ms': track['duration_ms'],
     'explicit': track['explicit'],
     'album': album,
+    'cover': track['album']['images'][0],
     'artists': artists,
     'audio_features': audio_features,
     'added_at': item['added_at']
@@ -47,7 +49,7 @@ def process_track(item):
 
 # funções de coleta de dados
 def get_audio_features(id):
-  url = url = 'https://api.spotify.com/v1/audio-features/{}'.format(id)
+  url = 'https://api.spotify.com/v1/audio-features/{}'.format(id)
   response = requests.request('GET', url, headers=headers, data = payload)
   # joga o resultado para a variável 
   audio_features = json.loads(response.content)
@@ -55,7 +57,7 @@ def get_audio_features(id):
   return audio_features
 
 def get_tracks():
-  url = url = 'https://api.spotify.com/v1/me/tracks?limit=50'
+  url = 'https://api.spotify.com/v1/me/tracks?limit=50'
 
   while True:
     # faz chamada na api até que todas as faixas sejam retornadas
@@ -72,6 +74,8 @@ def get_tracks():
       break
     
     print(url)
+    
+  return True 
 
 def insert_artist(id, artist):
   try:
@@ -94,11 +98,14 @@ def get_artists():
       'name': artist['name'],
       'popularity': artist['popularity'],
       'genres':artist['genres'],
+      'image':artist['images'],
       'followers':artist['followers']['total'],
       'external_urls':artist['external_urls']['spotify']
     }
 
     insert_artist(artist_id, artist)
+
+  return True
 
 if __name__=='__main__':
   on_get_tracks = get_tracks()
