@@ -16,5 +16,3 @@ https://developer.spotify.com/documentation/web-api/reference/library/check-user
 conda install pymongo
 conda install pprint
 ```
-
-teste
