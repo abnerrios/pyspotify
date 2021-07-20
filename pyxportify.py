@@ -1,4 +1,5 @@
 from typing import List
+from pymongo.message import query
 from requests import request
 import json
 from urllib.parse import urljoin
@@ -16,11 +17,12 @@ class _Tracks:
     path = kwargs.get('path')
     payload = kwargs.get('payload')
     method = kwargs.get('method')
+    querystring = kwargs.get('querystring')
     url = urljoin(self.__urlbase, path)
     result = None 
     
     try:
-      response = request(method=method, url=url, headers=self.__headers, data=payload)
+      response = request(method=method, url=url, headers=self.__headers, data=payload, params=querystring)
       
       if response.status_code<400:
         content = response.content
@@ -95,11 +97,12 @@ class _Albums:
     path = kwargs.get('path')
     payload = kwargs.get('payload')
     method = kwargs.get('method')
+    querystring = kwargs.get('querystring')
     url = urljoin(self.__urlbase, path)
     result = None 
     
     try:
-      response = request(method=method, url=url, headers=self.__headers, data=payload)
+      response = request(method=method, url=url, headers=self.__headers, data=payload, params=querystring)
       
       if response.status_code<400:
         content = response.content
@@ -142,11 +145,12 @@ class _Artists:
     path = kwargs.get('path')
     payload = kwargs.get('payload')
     method = kwargs.get('method')
+    querystring = kwargs.get('querystring')
     url = urljoin(self.__urlbase, path)
     result = None 
     
     try:
-      response = request(method=method, url=url, headers=self.__headers, data=payload)
+      response = request(method=method, url=url, headers=self.__headers, data=payload, params=querystring)
       
       if response.status_code<400:
         content = response.content
@@ -190,23 +194,25 @@ class _Library:
     path = kwargs.get('path')
     payload = kwargs.get('payload')
     method = kwargs.get('method')
+    querystring = kwargs.get('querystring')
     url = urljoin(self.__urlbase, path)
-    result = None 
+    items = [] 
     
     try:
-      response = request(method=method, url=url, headers=self.__headers, data=payload)
+      response = request(method=method, url=url, headers=self.__headers, data=payload, params=querystring)
       
       if response.status_code<400:
         content = response.content
-        result = json.loads(content)
+        content_json = json.loads(content)
+        items = content_json.get('items')
       else:
         raise ConnectionError(response.status_code, response.text)
     except Exception as error:
       print(error)
 
-    return result
+    return items
 
-  def albums(self, limit: int = 20, offset: int = 0):
+  def albums(self, limit: int, offset: int):
     """ Get a list of the albums saved in the current Spotify user’s ‘Your Music’ library. """
     # adjust the limit for max allowed 
     if limit>50:
@@ -221,7 +227,7 @@ class _Library:
       querystring = querystring
     )
 
-  def tracks(self, limit: int = 20, offset: int = 0):
+  def tracks(self, limit: int, offset: int):
     """ Get a list of the songs saved in the current Spotify user’s ‘Your Music’ library. """
     # adjust the limit for max allowed 
     if limit>50:
