@@ -1,5 +1,5 @@
 import os
-from spotify import Api
+from pyxportify import Api
 from dotenv import load_dotenv
 load_dotenv()
 

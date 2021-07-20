@@ -1,4 +1,4 @@
-# Pytify
+# Pyxportify
 
 ### Instalar o mongo-db
 - Windows:
@@ -13,7 +13,7 @@ https://developer.spotify.com/console/get-current-user/
 ### Instalação de pacotes necessários.
 
 ```bash
-> mkdir .env
+$ mkdir .env
 ```
 
 ```env
@@ -25,5 +25,5 @@ MONGO_PORT = 27017
 ```
 
 ```bash
-> pip install -r requirements.txt
+$ pip install -r requirements.txt
 ```
