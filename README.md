@@ -13,7 +13,7 @@ https://developer.spotify.com/console/get-current-user/
 ### Instalação de pacotes necessários.
 
 ```bash
-$ mkdir .env
+$ vim .env
 ```
 
 ```env
