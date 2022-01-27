@@ -1,4 +1,4 @@
-# Pyxportify
+# pyspotify
 
 ### Install mongodb
 - Windows:
