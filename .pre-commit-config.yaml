@@ -1,0 +1,41 @@
+exclude: ^(.github|.changes|venv/|docs/|CHANGELOG)
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: check-yaml
+      - id: check-added-large-files
+      - id: check-docstring-first
+      - id: check-toml
+      - id: detect-private-key
+      - id: end-of-file-fixer
+      - id: pretty-format-json
+        args: [--autofix]
+      - id: check-added-large-files
+        args: ['--maxkb=100']
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.1.3
+    hooks:
+      - id: ruff
+        args: [--fix, --show-fixes]
+      - id: ruff-format
+  - repo: https://github.com/codespell-project/codespell
+    rev: "v2.2.6"
+    hooks:
+      - id: codespell
+        args: ["-L", "sur,fo"]
+  - repo: https://github.com/PyCQA/prospector
+    rev: 1.10.0
+    hooks:
+      - id: prospector
+        additional_dependencies:
+        -   ".[with_mypy,with_bandit]"
+        args:
+        -   --with-tool=mypy
+        -   --with-tool=bandit
+        -   --summary-only
+        -   --zero-exit
+  - repo: https://github.com/sqlfluff/sqlfluff
+    rev: 2.3.0
+    hooks:
+    -   id: sqlfluff-lint
